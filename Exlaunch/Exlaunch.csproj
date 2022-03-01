@@ -3,27 +3,24 @@
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <Nullable>enable</Nullable>
 
+        <RuntimeIdentifier>linux-arm64</RuntimeIdentifier>
         <NoStdLib>true</NoStdLib>
         <NoConfig>true</NoConfig>
         <RuntimeMetadataVersion>v4.0.30319</RuntimeMetadataVersion>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
         <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
+        <NativeLib>Static</NativeLib>
 
         <IlcSystemModule>Exlaunch</IlcSystemModule>
 
-        <DefineConstants Condition="'$(OS)' == 'Windows_NT'">$(DefineConstants);WINDOWS</DefineConstants>
         <IlcPackageVersion>7.0.0-alpha.1.22074.1</IlcPackageVersion>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="Microsoft.DotNet.ILCompiler" Version="$(IlcPackageVersion)" />
         <PackageReference Include="runtime.linux-x64.Microsoft.DotNet.ILCompiler" Version="$(IlcPackageVersion)" />
-        <PackageReference Include="runtime.win-x64.Microsoft.DotNet.ILCompiler" Version="$(IlcPackageVersion)" />
-    </ItemGroup>
-
-    <ItemGroup Condition="'$(OS)' != 'Windows_NT'">
-        <DirectPInvoke Include="libc" />
     </ItemGroup>
 
     <!-- The project file pretends this is .NET, but it's not .NET. Remove all assembly references the .NET SDK added. -->

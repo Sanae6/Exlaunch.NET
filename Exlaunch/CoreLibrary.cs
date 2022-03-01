@@ -70,21 +70,21 @@ namespace System {
 
     [Flags]
     public enum AttributeTargets {
-        Assembly = 1,
-        Module = 2,
-        Class = 4,
-        Struct = 8,
-        Enum = 16,
-        Constructor = 32,
-        Method = 64,
-        Property = 128,
-        Field = 256,
-        Event = 512,
-        Interface = 1024,
-        Parameter = 2048,
-        ReturnValue = 8192,
-        Delegate = 4096,
-        GenericParameter = 16384,
+        Assembly = 0x1,
+        Module = 0x2,
+        Class = 0x4,
+        Struct = 0x8,
+        Enum = 0x10,
+        Constructor = 0x20,
+        Method = 0x40,
+        Property = 0x80,
+        Field = 0x100,
+        Event = 0x200,
+        Interface = 0x400,
+        Parameter = 0x800,
+        ReturnValue = 0x2000,
+        Delegate = 0x1000,
+        GenericParameter = 0x4000,
         All = Assembly | Module | Class | Struct | Enum | Constructor | Method | Property | Field | Event | Interface | Parameter | ReturnValue | Delegate | GenericParameter,
     }
 
@@ -99,28 +99,70 @@ namespace System {
         public class RuntimeHelpers {
             public static unsafe int OffsetToStringData => sizeof(IntPtr) + sizeof(int);
         }
+
+        public enum MethodCodeType {
+            IL,
+            Native,
+            OPTIL,
+            Runtime
+        }
+
+        [Flags]
+        public enum MethodImplOptions {
+            Unmanaged = 0x4,
+            NoInlining = 0x8,
+            ForwardRef = 0x10,
+            Synchronized = 0x20,
+            NoOptimization = 0x40,
+            PreserveSig = 0x80,
+            AggressiveInlining = 0x100,
+            AggressiveOptimization = 0x200,
+            InternalCall = 0x1000
+        }
+
+        [AttributeUsage(AttributeTargets.Constructor | AttributeTargets.Method, Inherited = false)]
+        public class MethodImplAttribute : Attribute {
+            public MethodCodeType MethodCodeType;
+            public MethodImplOptions Value { get; }
+            public MethodImplAttribute() { }
+
+            public MethodImplAttribute(short options) {
+                Value = (MethodImplOptions) options;
+            }
+
+            public MethodImplAttribute(MethodImplOptions options) {
+                Value = options;
+            }
+        }
     }
 
     namespace Runtime.InteropServices {
+        [AttributeUsage(AttributeTargets.Method)]
         public sealed class DllImportAttribute : Attribute {
+            public string? EntryPoint;
             public DllImportAttribute(string dllName) { }
+        }
+
+        public class InteropHelpers {
+            
         }
     }
 
     namespace Runtime {
-        internal sealed class RuntimeExportAttribute : Attribute {
+        [AttributeUsage(AttributeTargets.Method)]
+        public sealed class RuntimeExportAttribute : Attribute {
             public RuntimeExportAttribute(string entry) { }
         }
     }
 
-    class Array<T> : Array { }
+    public class Array<T> : Array { }
 }
 
 namespace Internal.Runtime.CompilerHelpers {
     // A class that the compiler looks for that has helpers to initialize the
     // process. The compiler can gracefully handle the helpers not being present,
     // but the class itself being absent is unhandled. Let's add an empty class.
-    class StartupCodeHelpers {
+    public class StartupCodeHelpers {
         // A couple symbols the generated code will need we park them in this class
         // for no particular reason. These aid in transitioning to/from managed code.
         // Since we don't have a GC, the transition is a no-op.
@@ -143,7 +185,7 @@ namespace Internal.Runtime.CompilerHelpers {
     }
 
     public class ThrowHelpers {
-        public static extern void _ZN3exl4diag9AbortImplERKNS0_8AbortCtxE(int errorId);
+        // public static extern void _ZN3exl4diag9AbortImplERKNS0_8AbortCtxE(int errorId);
 
         public static void ThrowInvalidProgramException() { }
         public static void ThrowInvalidProgramExceptionWithArgument() { }
