@@ -1,18 +1,57 @@
 ﻿using System;
 using System.Runtime;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 
 // dotnet publish --sc -c Release -r linux-arm64 -o ../exlaunch-cmake/libs/
-namespace Exlaunch {
-    public class MainClass {
-        // public Span<byte> MarshalStringToBytes();
-        [RuntimeExport("exl_main")]
-        public static unsafe void exl_main() {
-            Native.SetOwnProcessHandle(Native.GetProcHandle());
-            Native.HookInitialize();
-            
-            Native.Abort(0x21242069);
+namespace Exlaunch; 
+
+public class MainClass {
+    public unsafe delegate void SetPaneStringDel(IntPtr ptr, char* text, ushort length, ushort unknown);
+
+    private static MainClass Instance = null!;
+
+    public int FieldYooo;
+
+    public SetPaneStringDel SetPaneStringTrampoline;
+    public string Str;
+
+    public MainClass() {
+        FieldYooo = 69;
+        Str = "Among Us";
+    }
+
+    public static unsafe void SetPaneStringLength(IntPtr ptr, char* text, ushort length, ushort unknown) {
+        const string newText = "Among Us";
+        fixed (char* newPtr = newText) {
+            Instance.SetPaneStringTrampoline(ptr, newPtr, (ushort) newText.Length, unknown);
         }
     }
+
+    [RuntimeExport("exl_main")]
+    public static unsafe void exl_main() {
+        Native.SetOwnProcessHandle(Native.GetProcHandle());
+        Native.HookInitialize();
+
+        Instance = new MainClass {
+            FieldYooo = 142104,
+            // SetPaneStringTrampoline = Hook<SetPaneStringDel>("_ZN2al19setPaneStringLengthEPNS_10IUseLayoutEPKcPKDstt", SetPaneStringLength)
+        };
+
+        // Native.ExlaunchAbort(0x21242069);
+    }
+
+    // public static unsafe T Hook<T>(string location, T callback) where T : Delegate {
+    //     byte[] locationAscii = StrToUtf8(location);
+    //     fixed (char* locationPtr = location) 
+    //         return (T) Native.Hook(Native.GetSymbol(locationPtr), callback);
+    // }
+    //
+    // public static unsafe byte[] StrToUtf8(string str) {
+    //     byte[] bytes = new byte[str.Length];
+    //     fixed (char* strPtr = str) for (int i = 0; i < str.Length; i++) {
+    //         if (strPtr[i] > 0x80) throw new Exception("grr arf bark bark");
+    //         bytes[i] = (byte) strPtr[i];
+    //     }
+    //
+    //     return bytes;
+    // }
 }

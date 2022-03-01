@@ -2,6 +2,9 @@
 
 using System;
 using System.Runtime;
+using System.Runtime.InteropServices;
+
+[module: DefaultCharSet(CharSet.Unicode)]
 
 namespace System {
     public class Object {
@@ -11,59 +14,39 @@ namespace System {
 #pragma warning restore 169
     }
 
-    public struct Void { }
-
-    public struct Boolean { }
-
-    public struct Char { }
-
-    public struct SByte { }
-
-    public struct Byte { }
-
-    public struct Int16 { }
-
-    public struct UInt16 { }
-
-    public struct Int32 { }
-
-    public struct UInt32 { }
-
-    public struct Int64 { }
-
-    public struct UInt64 { }
-
-    public struct IntPtr { }
-
-    public struct UIntPtr { }
-
-    public struct Single { }
-
-    public struct Double { }
-
-    public abstract class ValueType { }
-
-    public abstract class Enum : ValueType { }
-
     public struct Nullable<T> where T : struct { }
 
     public sealed class String {
         public readonly int Length;
+
+        public unsafe String(char* ptr) { }
+
+        public char this[int index] => 'C';
     }
 
-    public ref struct Span<T> {
-        
-    }
+    public ref struct Span<T> { }
 
-    public struct Memory<T> {
-        
-    }
+    public struct Memory<T> { }
 
     public abstract class Array { }
 
-    public abstract class Delegate { }
+    public abstract class Delegate {
+        protected internal IntPtr m_extraFunctionPointerOrData;
+        protected internal object m_firstParameter;
+        protected internal IntPtr m_functionPointer;
+        protected internal object m_helperObject;
+        protected void InitializeOpenStaticThunk(object firstParameter, IntPtr functionPointer, IntPtr functionPointerThunk) { }
+    }
 
     public abstract class MulticastDelegate : Delegate { }
+
+    public class Exception {
+        public Exception(string grrArfBarkBark) { }
+    }
+
+    public class NotImplementedException : Exception {
+        public NotImplementedException(string grrArfBarkBark) : base(grrArfBarkBark) { }
+    }
 
     public struct RuntimeTypeHandle { }
 
@@ -71,42 +54,12 @@ namespace System {
 
     public struct RuntimeFieldHandle { }
 
-    public class Attribute { }
-
-    [AttributeUsage(AttributeTargets.Enum, Inherited = false)]
-    public class FlagsAttribute : Attribute { }
-
-    [Flags]
-    public enum AttributeTargets {
-        Assembly = 0x1,
-        Module = 0x2,
-        Class = 0x4,
-        Struct = 0x8,
-        Enum = 0x10,
-        Constructor = 0x20,
-        Method = 0x40,
-        Property = 0x80,
-        Field = 0x100,
-        Event = 0x200,
-        Interface = 0x400,
-        Parameter = 0x800,
-        ReturnValue = 0x2000,
-        Delegate = 0x1000,
-        GenericParameter = 0x4000,
-        All = Assembly | Module | Class | Struct | Enum | Constructor | Method | Property | Field | Event | Interface | Parameter | ReturnValue | Delegate | GenericParameter,
-    }
-
-    [AttributeUsage(AttributeTargets.Class)]
-    public class AttributeUsageAttribute : Attribute {
-        public bool AllowMultiple { get; set; } = false;
-        public bool Inherited { get; set; } = true;
-        public AttributeUsageAttribute(AttributeTargets targets) { }
-    }
-
     namespace Runtime.CompilerServices {
         public class RuntimeHelpers {
             public static unsafe int OffsetToStringData => sizeof(IntPtr) + sizeof(int);
         }
+
+        public class CallConvCdecl { }
 
         public enum MethodCodeType {
             IL,
@@ -131,7 +84,6 @@ namespace System {
         [AttributeUsage(AttributeTargets.Constructor | AttributeTargets.Method, Inherited = false)]
         public class MethodImplAttribute : Attribute {
             public MethodCodeType MethodCodeType;
-            public MethodImplOptions Value { get; }
             public MethodImplAttribute() { }
 
             public MethodImplAttribute(short options) {
@@ -141,26 +93,26 @@ namespace System {
             public MethodImplAttribute(MethodImplOptions options) {
                 Value = options;
             }
+
+            public MethodImplOptions Value { get; }
         }
     }
 
     namespace Runtime.InteropServices {
-        [AttributeUsage(AttributeTargets.Method)]
-        public sealed class DllImportAttribute : Attribute {
-            public string? EntryPoint;
-            public DllImportAttribute(string dllName) { }
+        public enum CallingConvention {
+            Winapi = 1,
+            Cdecl = 2,
+            StdCall = 3,
+            ThisCall = 4,
+            FastCall = 5
         }
 
-        public class InteropHelpers {
-            
+        [AttributeUsage(AttributeTargets.Method, Inherited = false)]
+        public sealed class UnmanagedCallersOnlyAttribute : Attribute {
+            public Type[]? CallConvs;
         }
-    }
 
-    namespace Runtime {
-        [AttributeUsage(AttributeTargets.Method)]
-        public sealed class RuntimeExportAttribute : Attribute {
-            public RuntimeExportAttribute(string entry) { }
-        }
+        public class InteropHelpers { }
     }
 
     public class Array<T> : Array { }
@@ -175,22 +127,24 @@ namespace Internal.Runtime.CompilerHelpers {
         // for no particular reason. These aid in transitioning to/from managed code.
         // Since we don't have a GC, the transition is a no-op.
         [RuntimeExport("RhpReversePInvoke")]
-        static void RhpReversePInvoke(IntPtr frame) { }
+        private static void RhpReversePInvoke(IntPtr frame) { }
 
         [RuntimeExport("RhpReversePInvokeReturn")]
-        static void RhpReversePInvokeReturn(IntPtr frame) { }
+        private static void RhpReversePInvokeReturn(IntPtr frame) { }
 
         [RuntimeExport("RhpPInvoke")]
-        static void RhpPInvoke(IntPtr frame) { }
+        private static void RhpPInvoke(IntPtr frame) { }
 
         [RuntimeExport("RhpPInvokeReturn")]
-        static void RhpPInvokeReturn(IntPtr frame) { }
+        private static void RhpPInvokeReturn(IntPtr frame) { }
 
         [RuntimeExport("RhpFallbackFailFast")]
-        static void RhpFallbackFailFast() {
+        private static void RhpFallbackFailFast() {
             while (true) ;
         }
     }
+
+    public class InteropHelpers { }
 
     public class ThrowHelpers {
         // public static extern void _ZN3exl4diag9AbortImplERKNS0_8AbortCtxE(int errorId);
