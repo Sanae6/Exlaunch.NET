@@ -6,8 +6,9 @@ using System.Runtime.InteropServices;
 // dotnet publish --sc -c Release -r linux-arm64 -o ../exlaunch-cmake/libs/
 namespace Exlaunch {
     public class MainClass {
+        // public Span<byte> MarshalStringToBytes();
         [RuntimeExport("exl_main")]
-        public static void exl_main() {
+        public static unsafe void exl_main() {
             Native.SetOwnProcessHandle(Native.GetProcHandle());
             Native.HookInitialize();
             

@@ -11,9 +11,11 @@
         <RuntimeMetadataVersion>v4.0.30319</RuntimeMetadataVersion>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
         <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
+        <DisableImplicitFrameworkReferences>true</DisableImplicitFrameworkReferences>
+        
         <NativeLib>Static</NativeLib>
 
-        <IlcSystemModule>Exlaunch</IlcSystemModule>
+        <IlcSystemModule>CoreLib</IlcSystemModule>
 
         <IlcPackageVersion>7.0.0-alpha.1.22074.1</IlcPackageVersion>
     </PropertyGroup>
@@ -21,15 +23,8 @@
     <ItemGroup>
         <PackageReference Include="Microsoft.DotNet.ILCompiler" Version="$(IlcPackageVersion)" />
         <PackageReference Include="runtime.linux-x64.Microsoft.DotNet.ILCompiler" Version="$(IlcPackageVersion)" />
+        <ProjectReference Include="../CoreLib/CoreLib.csproj" />
     </ItemGroup>
-
-    <!-- The project file pretends this is .NET, but it's not .NET. Remove all assembly references the .NET SDK added. -->
-    <Target Name="CustomizeReferences" BeforeTargets="BeforeCompile" AfterTargets="FindReferenceAssembliesForReferences">
-        <ItemGroup>
-            <ReferencePathWithRefAssemblies Remove="@(ReferencePathWithRefAssemblies)" />
-            <ReferencePath Remove="@(ReferencePath)" />
-        </ItemGroup>
-    </Target>
 
     <!-- The AOT compiler would want to mirror these as AppContext switches. Prevent that. -->
     <Target Name="RemoveHostConfigurationOptions" BeforeTargets="WriteIlcRspFileForCompilation" DependsOnTargets="PrepareForILLink">

@@ -11,6 +11,8 @@ public class Native {
     public static extern IntPtr GetProcHandle();
     [DllImport("*", EntryPoint = "_ZN3exl4util4Hook10InitializeEv")]
     public static extern void HookInitialize();
+    [DllImport("*", EntryPoint = "ExlaunchGetSymbol")]
+    public static extern void GetSymbol();
     [DllImport("*", EntryPoint = "ExlaunchAbort")]
     public static extern void Abort(uint value);
     // ReSharper restore InconsistentNaming

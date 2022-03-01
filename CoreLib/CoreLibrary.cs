@@ -51,6 +51,14 @@ namespace System {
         public readonly int Length;
     }
 
+    public ref struct Span<T> {
+        
+    }
+
+    public struct Memory<T> {
+        
+    }
+
     public abstract class Array { }
 
     public abstract class Delegate { }
