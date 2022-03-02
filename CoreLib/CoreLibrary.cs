@@ -16,37 +16,13 @@ namespace System {
 
     public struct Nullable<T> where T : struct { }
 
-    public sealed class String {
-        public readonly int Length;
-
-        public unsafe String(char* ptr) { }
-
-        public char this[int index] => 'C';
-    }
-
     public ref struct Span<T> { }
 
     public struct Memory<T> { }
 
     public abstract class Array { }
 
-    public abstract class Delegate {
-        protected internal IntPtr m_extraFunctionPointerOrData;
-        protected internal object m_firstParameter;
-        protected internal IntPtr m_functionPointer;
-        protected internal object m_helperObject;
-        protected void InitializeOpenStaticThunk(object firstParameter, IntPtr functionPointer, IntPtr functionPointerThunk) { }
-    }
-
     public abstract class MulticastDelegate : Delegate { }
-
-    public class Exception {
-        public Exception(string grrArfBarkBark) { }
-    }
-
-    public class NotImplementedException : Exception {
-        public NotImplementedException(string grrArfBarkBark) : base(grrArfBarkBark) { }
-    }
 
     public struct RuntimeTypeHandle { }
 
@@ -122,27 +98,7 @@ namespace Internal.Runtime.CompilerHelpers {
     // A class that the compiler looks for that has helpers to initialize the
     // process. The compiler can gracefully handle the helpers not being present,
     // but the class itself being absent is unhandled. Let's add an empty class.
-    public class StartupCodeHelpers {
-        // A couple symbols the generated code will need we park them in this class
-        // for no particular reason. These aid in transitioning to/from managed code.
-        // Since we don't have a GC, the transition is a no-op.
-        [RuntimeExport("RhpReversePInvoke")]
-        private static void RhpReversePInvoke(IntPtr frame) { }
-
-        [RuntimeExport("RhpReversePInvokeReturn")]
-        private static void RhpReversePInvokeReturn(IntPtr frame) { }
-
-        [RuntimeExport("RhpPInvoke")]
-        private static void RhpPInvoke(IntPtr frame) { }
-
-        [RuntimeExport("RhpPInvokeReturn")]
-        private static void RhpPInvokeReturn(IntPtr frame) { }
-
-        [RuntimeExport("RhpFallbackFailFast")]
-        private static void RhpFallbackFailFast() {
-            while (true) ;
-        }
-    }
+    public class StartupCodeHelpers { }
 
     public class InteropHelpers { }
 

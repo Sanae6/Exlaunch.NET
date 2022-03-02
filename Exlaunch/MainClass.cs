@@ -8,37 +8,31 @@ public class MainClass {
     public unsafe delegate void SetPaneStringDel(IntPtr ptr, char* text, ushort length, ushort unknown);
 
     private static MainClass Instance = null!;
+    private static int sussy = 0;
 
-    public int FieldYooo;
-
-    public SetPaneStringDel SetPaneStringTrampoline;
-    public string Str;
-
-    public MainClass() {
-        FieldYooo = 69;
-        Str = "Among Us";
-    }
-
-    public static unsafe void SetPaneStringLength(IntPtr ptr, char* text, ushort length, ushort unknown) {
-        const string newText = "Among Us";
-        fixed (char* newPtr = newText) {
-            Instance.SetPaneStringTrampoline(ptr, newPtr, (ushort) newText.Length, unknown);
-        }
-    }
+    public int FieldYooo = 69;
+    public string Among = "Us";
 
     [RuntimeExport("exl_main")]
-    public static unsafe void exl_main() {
-        Native.SetOwnProcessHandle(Native.GetProcHandle());
-        Native.HookInitialize();
+    public static void exl_main() {
+        // Native.SetOwnProcessHandle(Native.GetProcHandle());
+        // Native.HookInitialize();
 
+        sussy++;
         Instance = new MainClass {
-            FieldYooo = 142104,
-            // SetPaneStringTrampoline = Hook<SetPaneStringDel>("_ZN2al19setPaneStringLengthEPNS_10IUseLayoutEPKcPKDstt", SetPaneStringLength)
+            FieldYooo = 142104
         };
-
-        // Native.ExlaunchAbort(0x21242069);
     }
 
+    // SetPaneStringTrampoline = Hook<SetPaneStringDel>("_ZN2al19setPaneStringLengthEPNS_10IUseLayoutEPKcPKDstt", SetPaneStringLength)
+    // Native.ExlaunchAbort(0x21242069);
+
+    // public static unsafe void SetPaneStringLength(IntPtr ptr, char* text, ushort length, ushort unknown) {
+    //     const string newText = "Among Us";
+    //     fixed (char* newPtr = newText) {
+    //         Instance.SetPaneStringTrampoline(ptr, newPtr, (ushort) newText.Length, unknown);
+    //     }
+    // }
     // public static unsafe T Hook<T>(string location, T callback) where T : Delegate {
     //     byte[] locationAscii = StrToUtf8(location);
     //     fixed (char* locationPtr = location) 
