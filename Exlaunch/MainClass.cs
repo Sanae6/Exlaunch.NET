@@ -13,9 +13,9 @@ public class MainClass {
     public int FieldYooo = 69;
     public string Among = "Us";
 
-    [RuntimeExport("exl_main")]
-    public static void exl_main() {
-        // Native.SetOwnProcessHandle(Native.GetProcHandle());
+    [RuntimeExport("exl_csmain")]
+    public static void Main() {
+        Native.SetOwnProcessHandle(Native.GetProcHandle());
         // Native.HookInitialize();
 
         sussy++;
