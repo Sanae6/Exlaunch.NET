@@ -5,7 +5,6 @@ using System.Runtime.InteropServices;
 namespace Exlaunch;
 
 public class Native {
-    // ReSharper disable InconsistentNaming
     [DllImport("*", EntryPoint = "envSetOwnProcessHandle")]
     public static extern void SetOwnProcessHandle(IntPtr ptr);
 
@@ -23,5 +22,4 @@ public class Native {
 
     [DllImport("*", EntryPoint = "ExlaunchHook")]
     public static extern Delegate Hook(IntPtr hook, Delegate callback);
-    // ReSharper restore InconsistentNaming
 }
