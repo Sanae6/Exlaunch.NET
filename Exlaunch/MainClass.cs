@@ -13,15 +13,15 @@ public class MainClass {
     public int FieldYooo = 69;
     public string Among = "Us";
 
-    [RuntimeExport("exl_csmain")]
+    [RuntimeExport("exl_main")]
     public static void Main() {
         Native.SetOwnProcessHandle(Native.GetProcHandle());
-        // Native.HookInitialize();
+        Native.HookInitialize();
 
-        sussy++;
-        Instance = new MainClass {
-            FieldYooo = 142104
-        };
+        // sussy++;
+        // Instance = new MainClass {
+        //     FieldYooo = 142104
+        // };
     }
 
     // SetPaneStringTrampoline = Hook<SetPaneStringDel>("_ZN2al19setPaneStringLengthEPNS_10IUseLayoutEPKcPKDstt", SetPaneStringLength)
