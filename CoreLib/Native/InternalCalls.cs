@@ -2,9 +2,9 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace Exlaunch;
+namespace Native;
 
-public class Native {
+public class InternalCalls {
     [DllImport("*", EntryPoint = "envSetOwnProcessHandle")]
     public static extern void SetOwnProcessHandle(IntPtr ptr);
 
@@ -15,11 +15,11 @@ public class Native {
     public static extern void HookInitialize();
 
     [DllImport("*", EntryPoint = "ExlaunchGetSymbol")]
-    public static extern unsafe IntPtr GetSymbol(char* str);
-
-    [DllImport("*", EntryPoint = "ExlaunchAbort")]
-    public static extern void ExlaunchAbort(uint value);
+    public static extern unsafe IntPtr GetSymbol(byte* str);
 
     [DllImport("*", EntryPoint = "ExlaunchHook")]
-    public static extern Delegate Hook(IntPtr hook, Delegate callback);
+    public static extern IntPtr Hook(IntPtr hook, IntPtr callback);
+
+    [DllImport("*", EntryPoint = "svcBreak")]
+    public static extern void SvcBreak(int reason, ulong address = 0, ulong size = 0);
 }

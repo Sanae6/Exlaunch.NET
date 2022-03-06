@@ -7,6 +7,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Files", "Files", "{45576E86-4C99-4FDB-B27B-72C0DA9BF4D5}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
+		example.png = example.png
+		build.sh = build.sh
 	EndProjectSection
 EndProject
 Global

@@ -22,8 +22,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.DotNet.ILCompiler" Version="$(IlcPackageVersion)" />
-        <PackageReference Include="runtime.linux-x64.Microsoft.DotNet.ILCompiler" Version="$(IlcPackageVersion)" />
+        <PackageReference Include="Microsoft.DotNet.ILCompiler; runtime.linux-x64.Microsoft.DotNet.ILCompiler" Version="$(IlcPackageVersion)" />
         <ProjectReference Include="../CoreLib/CoreLib.csproj" />
     </ItemGroup>
 

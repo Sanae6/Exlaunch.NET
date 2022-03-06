@@ -1,0 +1,3 @@
+[submodule "exlaunch-cmake"]
+	path = exlaunch-cmake
+	url = https://github.com/Sanae6/exlaunch-cmake
