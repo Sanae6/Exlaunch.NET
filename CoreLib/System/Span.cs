@@ -1,3 +1,5 @@
 ﻿namespace System;
 
-public ref struct Span<T> { }
+public ref struct Span<T> {
+    public ByReference<T> byref;
+}

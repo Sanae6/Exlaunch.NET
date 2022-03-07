@@ -3,5 +3,11 @@
 namespace System;
 
 public struct RuntimeTypeHandle {
-    public unsafe MethodTable* _pEEType;
+    public unsafe MethodTable* MethodTable;
+
+    public RuntimeTypeHandle(IntPtr ptr) {
+        unsafe {
+            MethodTable = (MethodTable*) ptr;
+        }
+    }
 }

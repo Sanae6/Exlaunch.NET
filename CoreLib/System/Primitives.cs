@@ -1,6 +1,4 @@
-﻿using CoreLib.System.Runtime.CompilerServices;
-
-namespace System;
+﻿namespace System;
 
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
@@ -11,8 +9,8 @@ namespace System;
 // CONTRACT with Runtime
 // Each of the data types has a data contract with the runtime. See the contract in the type definition
 //
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
+using Runtime.InteropServices;
+using Runtime.CompilerServices;
 
 // CONTRACT with Runtime
 // Place holder type for type hierarchy, Compiler/Runtime requires this class
@@ -20,7 +18,7 @@ public abstract class ValueType { }
 
 // CONTRACT with Runtime, Compiler/Runtime requires this class
 // Place holder type for type hierarchy
-public abstract class Enum : System.ValueType { }
+public abstract class Enum : ValueType { }
 
 /*============================================================
 **
