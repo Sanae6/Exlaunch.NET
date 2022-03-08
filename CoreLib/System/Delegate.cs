@@ -10,16 +10,19 @@ public abstract class Delegate {
         
     }
 
-    public Delegate(IntPtr functionPointer) {
+    protected Delegate(IntPtr functionPointer) {
         m_functionPointer = functionPointer;
     }
 
     protected void InitializeOpenStaticThunk(object firstParameter, IntPtr functionPointer,
         IntPtr functionPointerThunk) {
         m_firstParameter = firstParameter;
-        m_functionPointer = functionPointer;
-        m_extraFunctionPointerOrData = functionPointerThunk;
+        m_functionPointer = functionPointerThunk;
+        m_extraFunctionPointerOrData = functionPointer;
     }
-    
-    public void InitializeClosedInstance(object firstParameter, IntPtr functionPointer) {}
+
+    public void InitializeClosedInstance(object firstParameter, IntPtr functionPointer) {
+        m_firstParameter = firstParameter;
+        m_functionPointer = functionPointer;
+    }
 }

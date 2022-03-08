@@ -1,6 +1,6 @@
 [*]
 charset = utf-8-bom
-end_of_line = lf
+end_of_line = crlf
 indent_size = 4
 indent_style = space
 insert_final_newline = false
@@ -148,7 +148,7 @@ ij_editorconfig_space_before_colon = false
 ij_editorconfig_space_before_comma = false
 ij_editorconfig_spaces_around_assignment_operators = true
 
-[{*.ant,*.appxmanifest,*.axml,*.cscfg,*.csdef,*.disco,*.filelayout,*.fxml,*.jhm,*.jnlp,*.jrxml,*.manifest,*.myapp,*.nuspec,*.rng,*.stylecop,*.svcmap,*.tld,*.tps,*.wadcfgx,*.webref,*.wsdl,*.xml,*.xsd,*.xsl,*.xslt,*.xul,StyleCop.Cache}]
+[{*.ant,*.appxmanifest,*.axml,*.cscfg,*.csdef,*.disco,*.filelayout,*.fxml,*.jhm,*.jnlp,*.jrxml,*.manifest,*.myapp,*.nuspec,*.rng,*.stylecop,*.svcmap,*.tld,*.tps,*.wadcfgx,*.webref,*.wsdl,*.xml,*.xsd,*.xshd,*.xsl,*.xslt,*.xul,StyleCop.Cache}]
 ij_xml_align_attributes = true
 ij_xml_align_text = false
 ij_xml_attribute_wrap = normal
@@ -612,6 +612,9 @@ ij_coffeescript_use_public_modifier = false
 ij_coffeescript_use_semicolon_after_statement = false
 ij_coffeescript_var_declaration_wrap = normal
 
+[{*.comp,*.frag,*.geom,*.glsl,*.shader,*.tesc,*.tese,*.vert,*.vsh}]
+ij_glsl_keep_indents_on_empty_lines = false
+
 [{*.har,*.inputactions,*.jsb2,*.jsb3,*.json,.babelrc,.eslintrc,.stylelintrc,bowerrc,jest.config}]
 indent_size = 2
 ij_json_keep_blank_lines_in_code = 0
@@ -658,17 +661,13 @@ ij_markdown_force_one_space_after_blockquote_symbol = true
 ij_markdown_force_one_space_after_header_symbol = true
 ij_markdown_force_one_space_after_list_bullet = true
 ij_markdown_force_one_space_between_words = true
-ij_markdown_insert_quote_arrows_on_wrap = true
 ij_markdown_keep_indents_on_empty_lines = false
-ij_markdown_keep_line_breaks_inside_text_blocks = true
 ij_markdown_max_lines_around_block_elements = 1
 ij_markdown_max_lines_around_header = 1
 ij_markdown_max_lines_between_paragraphs = 1
 ij_markdown_min_lines_around_block_elements = 1
 ij_markdown_min_lines_around_header = 1
 ij_markdown_min_lines_between_paragraphs = 1
-ij_markdown_wrap_text_if_long = true
-ij_markdown_wrap_text_inside_blockquotes = true
 
 [{*.yaml,*.yml}]
 indent_size = 2
