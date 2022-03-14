@@ -33,4 +33,8 @@ public class PInvokeMarshal {
 
         return pNative;
     }
+
+    public static unsafe Delegate? GetDelegateForFunctionPointer(IntPtr ptr, RuntimeTypeHandle delegateType) {
+        return null;
+    }
 }
