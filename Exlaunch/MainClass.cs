@@ -11,17 +11,21 @@ public static unsafe class MainClass {
     private delegate void SetPaneStringLengthDel(IntPtr iUseLayout, byte* paneName, char* text, ushort unknown,
         ushort textLength);
 
-    private static SetPaneStringLengthDel SetPaneStringTrampoline;
 
-    // [UnmanagedCallersOnly(CallConvs = new[] { typeof(CallConvCdecl) })]
-    public static void SetPaneStringLength(IntPtr ptr, byte* name, char* text, ushort unknown, ushort uselessLength) {
+    [UnmanagedCallersOnly(CallConvs = new[] { typeof(CallConvCdecl) })]
+    public static void SetPaneStringLength(IntPtr iUseLayout, byte* paneName, char* text, ushort unknown,
+        ushort textLength) {
+        // InternalCalls.SvcBreak(2430, (ulong) SetPaneStringTrampoline!.m_functionPointer);
         const string newText = "Do you see that small vent on the floor?\nHave you heard of \"Among Us?\"";
         fixed (char* newPtr = newText)
-            SetPaneStringTrampoline(ptr, name, newPtr, unknown, (ushort) newText.Length);
+            SetPaneStringTrampoline(iUseLayout, paneName, newPtr, unknown, (ushort) newText.Length);
     }
 
+    private static SetPaneStringLengthDel? SetPaneStringTrampoline = null;
+    // private static delegate* unmanaged[Cdecl]<IntPtr, byte*, char*,ushort,ushort, void> SetPaneStringTrampoline = null;
     private static bool InitializedSocket;
-    private static Func<IntPtr,ulong,ulong,int,int> SocketInitTrampoline = null!;
+    private static Func<IntPtr, ulong, ulong, int, int> SocketInitTrampoline = null!;
+
     [RuntimeExport("exl_main")]
     [MethodImpl(MethodImplOptions.NoInlining)]
     public static void Main() {
@@ -33,18 +37,23 @@ public static unsafe class MainClass {
         //     InternalCalls.InitializeLogger();
         //     return result;
         // });
-        SetPaneStringTrampoline = HookTrampoline<SetPaneStringLengthDel>
-            ("_ZN2al19setPaneStringLengthEPNS_10IUseLayoutEPKcPKDstt", SetPaneStringLength);
+        SetPaneStringTrampoline = HookTrampoline<SetPaneStringLengthDel>("_ZN2al19setPaneStringLengthEPNS_10IUseLayoutEPKcPKDstt", );
+        // SetPaneStringTrampoline = (delegate* unmanaged[Cdecl]<IntPtr, byte*, char*,ushort,ushort, void>) HookTrampolinePtr("_ZN2al19setPaneStringLengthEPNS_10IUseLayoutEPKcPKDstt", (IntPtr)(delegate* unmanaged[Cdecl]<IntPtr, byte*, char*,ushort,ushort, void>)&SetPaneStringLength);
     }
 
     public static T HookTrampoline<T>(string location, T callback) where T : Delegate {
         IntPtr trampoline;
-        fixed(byte* sisterLocation = StrToUtf8(location))
-            trampoline = InternalCalls.Hook(InternalCalls.GetSymbol(sisterLocation), callback.m_extraFunctionPointerOrData, true);
-        callback.m_functionPointer = trampoline;
-        callback.m_extraFunctionPointerOrData = trampoline;
+        fixed (byte* sisterLocation = StrToUtf8(location))
+            trampoline = InternalCalls.Hook(InternalCalls.GetSymbol(sisterLocation),
+                callback.m_functionPointer, true);
+        callback.InitializeOpenStaticThunk(null!, trampoline, trampoline);
         return callback;
     }
+
+    // public static IntPtr HookTrampolinePtr(string location, IntPtr callback) {
+    //     fixed (byte* sisterLocation = StrToUtf8(location))
+    //         return InternalCalls.Hook(InternalCalls.GetSymbol(sisterLocation), callback);
+    // }
 
     // public static void Hook<T>(string sisterLocation, T callback) where T : Delegate
     //     => InternalCalls.Hook(InternalCalls.GetSymbol((byte*) Marshal.StringToHGlobalAnsi(sisterLocation)), callback.m_functionPointer, false);

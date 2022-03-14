@@ -2,22 +2,25 @@
 
 public abstract class Delegate {
     public object m_firstParameter;
-    public object m_helperObject;
-    public IntPtr m_functionPointer;
-    public IntPtr m_extraFunctionPointerOrData;
 
-    public Delegate() {
-        
-    }
+    public object m_helperObject;
+
+    // This is not the thunk. It likes to pretend it's useful.
+    public IntPtr m_functionPointer = IntPtr.Zero;
+
+    // This is the thunk. It likes to be a thunk. It is useful.
+    public IntPtr m_extraFunctionPointerOrData = IntPtr.Zero;
+
+    public Delegate() { }
 
     protected Delegate(IntPtr functionPointer) {
         m_functionPointer = functionPointer;
     }
 
-    protected void InitializeOpenStaticThunk(object firstParameter, IntPtr functionPointer,
+    public void InitializeOpenStaticThunk(object firstParameter, IntPtr functionPointer,
         IntPtr functionPointerThunk) {
         m_firstParameter = firstParameter;
-        m_functionPointer = functionPointerThunk;
+        m_functionPointer = functionPointer;
         m_extraFunctionPointerOrData = functionPointer;
     }
 
