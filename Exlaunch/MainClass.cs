@@ -7,10 +7,6 @@ using Native;
 namespace Exlaunch;
 
 public static unsafe class MainClass {
-    class Holder {
-        public delegate* unmanaged[Cdecl]<IntPtr, byte*, char*, ushort, ushort, void> SetPaneStringTrampoline = null;
-    }
-
     // [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     private delegate void SetPaneStringLengthDel(IntPtr iUseLayout, byte* paneName, char* text, ushort unknown,
         ushort textLength);
@@ -20,31 +16,28 @@ public static unsafe class MainClass {
         // InternalCalls.SvcBreak(2430, (ulong) SetPaneStringTrampoline!.m_functionPointer);
         const string newText = "Do you see that small vent on the floor?\nHave you heard of \"Among Us?\"";
         fixed (char* newPtr = newText) {
-            holder.SetPaneStringTrampoline(iUseLayout, paneName, newPtr, unknown, (ushort) newText.Length);
+            SetPaneStringTrampoline(iUseLayout, paneName, newPtr, unknown, (ushort) newText.Length);
         }
     }
 
-    private static Holder holder;
-    private static SetPaneStringLengthDel SetPaneStringTrampoline = null;
+    private static delegate* unmanaged[Cdecl]<IntPtr, byte*, char*, ushort, ushort, void> SetPaneStringTrampoline = null!;
     private static bool InitializedSocket;
     private static delegate* unmanaged[Cdecl]<IntPtr, ulong, ulong, int, int> SocketInitTrampoline;
 
     [RuntimeExport("exl_main")]
     [MethodImpl(MethodImplOptions.NoInlining)]
     public static void Main() {
-        holder = new Holder();
-        // return;
         SocketInitTrampoline = (delegate* unmanaged[Cdecl]<IntPtr, ulong, ulong, int, int>)
             HookTrampoline<Func<IntPtr, ulong, ulong, int, int>>("_ZN2nn6socket10InitializeEPvmmi",
                 (pool, poolSize, allocPoolSize, concurLimit) => {
-                    // if (InitializedSocket) return 0;
-                    // InitializedSocket = true;
+                    if (InitializedSocket) return 0;
+                    InitializedSocket = true;
                     int result = SocketInitTrampoline(pool, poolSize, allocPoolSize, concurLimit);
-                    // InternalCalls.InitializeLogger();
-                    // InternalCalls.Log("Amongies");
+                    InternalCalls.InitializeLogger();
+                    InternalCalls.Log("Amongies");
                     return result;
                 });
-        holder.SetPaneStringTrampoline = (delegate* unmanaged[Cdecl]<IntPtr, byte*, char*, ushort, ushort, void>)
+        SetPaneStringTrampoline = (delegate* unmanaged[Cdecl]<IntPtr, byte*, char*, ushort, ushort, void>)
             HookTrampoline<SetPaneStringLengthDel>("_ZN2al19setPaneStringLengthEPNS_10IUseLayoutEPKcPKDstt",
                 SetPaneStringLength);
         // holder.SetPaneStringTrampoline = (delegate* unmanaged[Cdecl]<IntPtr, byte*, char*,ushort,ushort, void>) HookTrampolinePtr("_ZN2al19setPaneStringLengthEPNS_10IUseLayoutEPKcPKDstt", (IntPtr)(delegate* unmanaged[Cdecl]<IntPtr, byte*, char*,ushort,ushort, void>)&SetPaneStringLength);
