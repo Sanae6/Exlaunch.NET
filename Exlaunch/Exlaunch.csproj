@@ -32,5 +32,4 @@
             <RuntimeHostConfigurationOption Remove="@(RuntimeHostConfigurationOption)" />
         </ItemGroup>
     </Target>
-
 </Project>

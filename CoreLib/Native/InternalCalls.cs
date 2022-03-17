@@ -6,7 +6,7 @@ namespace Native;
 
 public unsafe class InternalCalls {
     [DllImport("*", EntryPoint = "tryInitSocket")]
-    public static extern void InitializeLogger();
+    public static extern bool InitializeLogger();
     [DllImport("*", EntryPoint = "ExlaunchLog")]
     private static extern IntPtr LogInternal(byte* str);
     [DllImport("*", EntryPoint = "ExlaunchGetSymbol")]
@@ -26,6 +26,21 @@ public unsafe class InternalCalls {
                     : throw new Exception("grr arf bark bark");
 
         return bytes;
+    }
+
+    public static IntPtr HookTrampoline<T>(string location, T callback) where T : Delegate {
+        IntPtr trampoline;
+        fixed (byte* sisterLocation = StrToUtf8(location)) {
+            IntPtr symbol = GetSymbol(sisterLocation);
+            trampoline = Hook(symbol, callback.m_functionPointer, true);
+        }
+
+        return trampoline;
+    }
+
+    public static IntPtr HookTrampolinePtr(string location, IntPtr callback) {
+        fixed (byte* sisterLocation = StrToUtf8(location))
+            return Hook(GetSymbol(sisterLocation), callback, true);
     }
 
     public static void Log(string text) {
