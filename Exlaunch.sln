@@ -11,6 +11,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Files", "Files", "{45576E86
 		build.sh = build.sh
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Exlaunch.IL2CPP", "Exlaunch.IL2CPP\Exlaunch.IL2CPP.csproj", "{068D5161-22F8-4CE3-AA5F-2DE567D6FF51}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Exlaunch.IL2CPP.Generator", "Exlaunch.IL2CPP.Generator\Exlaunch.IL2CPP.Generator.csproj", "{4EEDD51F-133E-44BB-98BA-445EF5220407}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,5 +29,13 @@ Global
 		{40DB66CD-308F-4A05-9333-B2038B877A22}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{40DB66CD-308F-4A05-9333-B2038B877A22}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{40DB66CD-308F-4A05-9333-B2038B877A22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{068D5161-22F8-4CE3-AA5F-2DE567D6FF51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{068D5161-22F8-4CE3-AA5F-2DE567D6FF51}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{068D5161-22F8-4CE3-AA5F-2DE567D6FF51}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{068D5161-22F8-4CE3-AA5F-2DE567D6FF51}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4EEDD51F-133E-44BB-98BA-445EF5220407}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4EEDD51F-133E-44BB-98BA-445EF5220407}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4EEDD51F-133E-44BB-98BA-445EF5220407}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4EEDD51F-133E-44BB-98BA-445EF5220407}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
