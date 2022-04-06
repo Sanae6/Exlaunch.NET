@@ -1,35 +1,31 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <Nullable>enable</Nullable>
         <RootNamespace>Exlaunch</RootNamespace>
 
-        <RuntimeIdentifier>linux-arm64</RuntimeIdentifier>
-        <NoStdLib>true</NoStdLib>
-        <NoConfig>true</NoConfig>
-        <RuntimeMetadataVersion>v4.0.30319</RuntimeMetadataVersion>
-        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-        <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
-        <DisableImplicitFrameworkReferences>true</DisableImplicitFrameworkReferences>
-
-        <NativeLib>Static</NativeLib>
-
         <IlcSystemModule>CoreLib</IlcSystemModule>
-
-        <IlcPackageVersion>7.0.0-alpha.2.22152.2</IlcPackageVersion>
     </PropertyGroup>
+    
+    <Import Project="../ILCSettings.props" />
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.DotNet.ILCompiler; runtime.linux-x64.Microsoft.DotNet.ILCompiler" Version="$(IlcPackageVersion)" />
         <ProjectReference Include="../CoreLib/CoreLib.csproj" />
     </ItemGroup>
 
-    <!-- The AOT compiler would want to mirror these as AppContext switches. Prevent that. -->
-    <Target Name="RemoveHostConfigurationOptions" BeforeTargets="WriteIlcRspFileForCompilation" DependsOnTargets="PrepareForILLink">
-        <ItemGroup>
-            <RuntimeHostConfigurationOption Remove="@(RuntimeHostConfigurationOption)" />
-        </ItemGroup>
-    </Target>
+    <ItemGroup>
+      <Reference Include="ILCompiler.Compiler">
+        <HintPath>..\ilcdbglibs\ILCompiler.Compiler.dll</HintPath>
+      </Reference>
+      <Reference Include="ILCompiler.DependencyAnalysisFramework">
+        <HintPath>..\ilcdbglibs\ILCompiler.DependencyAnalysisFramework.dll</HintPath>
+      </Reference>
+      <Reference Include="ILCompiler.MetadataTransform">
+        <HintPath>..\ilcdbglibs\ILCompiler.MetadataTransform.dll</HintPath>
+      </Reference>
+      <Reference Include="ILCompiler.TypeSystem">
+        <HintPath>..\ilcdbglibs\ILCompiler.TypeSystem.dll</HintPath>
+      </Reference>
+    </ItemGroup>
 </Project>

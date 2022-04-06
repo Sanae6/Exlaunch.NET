@@ -23,7 +23,7 @@ public static unsafe class MainClass {
     public static void Main() {
         InternalCalls.Log("Balls\n");
         InternalCalls.LogInternal2("Balls2\n");
-        FileBindings.MountSdCard("sd");
+        // FileBindings.MountSdCard("sd");
     }
 
     public static void SetPaneStringLength(IntPtr iUseLayout, byte* paneName, char* text, ushort unknown,

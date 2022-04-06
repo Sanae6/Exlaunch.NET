@@ -1,0 +1,26 @@
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <RuntimeIdentifier>linux-arm64</RuntimeIdentifier>
+        <NoStdLib>true</NoStdLib>
+        <NoConfig>true</NoConfig>
+        <RuntimeMetadataVersion>v4.0.30319</RuntimeMetadataVersion>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+        <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
+        <DisableImplicitFrameworkReferences>true</DisableImplicitFrameworkReferences>
+
+        <NativeLib>Static</NativeLib>
+        <IlcPackageVersion>7.0.0-preview.2.22152.2</IlcPackageVersion>
+    </PropertyGroup>
+    
+    <ItemGroup>
+        <PackageReference Include="Microsoft.DotNet.ILCompiler; runtime.linux-x64.Microsoft.DotNet.ILCompiler" Version="$(IlcPackageVersion)" />
+        
+    </ItemGroup>
+
+    <!-- The AOT compiler would want to mirror these as AppContext switches. Prevent that. -->
+    <Target Name="RemoveHostConfigurationOptions" BeforeTargets="WriteIlcRspFileForCompilation" DependsOnTargets="PrepareForILLink">
+        <ItemGroup>
+            <RuntimeHostConfigurationOption Remove="@(RuntimeHostConfigurationOption)" />
+        </ItemGroup>
+    </Target>
+</Project>
