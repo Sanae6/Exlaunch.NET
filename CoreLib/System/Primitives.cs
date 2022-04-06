@@ -178,6 +178,22 @@ public struct Int32 {
 
     public const int MaxValue = 0x7fffffff;
     public const int MinValue = unchecked((int) 0x80000000);
+
+    public static bool TryParse(string text, out int value) {
+        value = 0;
+        int answer = 0, factor = 1;
+        for (int i = text.Length - 1; i >= 0; i--) {
+            char c = text[i];
+            if (c is >= '0' and <= '9') {
+                answer += (c - '0') * factor;
+                factor *= 10;
+            } else
+                return false;
+        }
+        return true;
+    }
+    // public static int Parse(string text) {
+    // }
 }
 
 /*============================================================

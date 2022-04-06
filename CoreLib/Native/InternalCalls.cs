@@ -5,17 +5,19 @@ using System.Runtime.InteropServices;
 namespace Native;
 
 public unsafe class InternalCalls {
-    [DllImport("*", EntryPoint = "tryInitSocket")]
+    [DllImport(EntryPoint = "tryInitSocket")]
     public static extern bool InitializeLogger();
-    [DllImport("*", EntryPoint = "ExlaunchLog")]
-    private static extern IntPtr LogInternal(byte* str);
-    [DllImport("*", EntryPoint = "ExlaunchGetSymbol")]
+    [DllImport(EntryPoint = "ExlaunchLog")]
+    private static extern void LogInternal(byte* str);
+    [DllImport(EntryPoint = "ExlaunchLog", CharSet = CharSet.Ansi)]
+    public static extern void LogInternal2(string str);
+    [DllImport(EntryPoint = "ExlaunchGetSymbol")]
     public static extern IntPtr GetSymbol(byte* str);
 
-    [DllImport("*", EntryPoint = "ExlaunchHook")]
+    [DllImport(EntryPoint = "ExlaunchHook")]
     public static extern IntPtr Hook(IntPtr hook, IntPtr callback, bool trampoline);
 
-    [DllImport("*", EntryPoint = "svcBreak")]
+    [DllImport(EntryPoint = "svcBreak")]
     public static extern void SvcBreak(int reason, ulong address = 0, ulong size = 0);
     public static byte[] StrToUtf8(string str) {
         byte[] bytes = new byte[str.Length];

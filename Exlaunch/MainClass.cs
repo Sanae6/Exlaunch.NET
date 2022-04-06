@@ -3,6 +3,7 @@ using System.Runtime;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Native;
+using Nintendo.Bindings;
 
 namespace Exlaunch;
 
@@ -20,7 +21,9 @@ public static unsafe class MainClass {
     [RuntimeExport("exl_main")]
     [MethodImpl(MethodImplOptions.NoInlining)]
     public static void Main() {
-        InternalCalls.Log("Balls");
+        InternalCalls.Log("Balls\n");
+        InternalCalls.LogInternal2("Balls2\n");
+        FileBindings.MountSdCard("sd");
     }
 
     public static void SetPaneStringLength(IntPtr iUseLayout, byte* paneName, char* text, ushort unknown,

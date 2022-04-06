@@ -18,7 +18,7 @@
 
         <IlcSystemModule>CoreLib</IlcSystemModule>
 
-        <IlcPackageVersion>7.0.0-alpha.1.22074.1</IlcPackageVersion>
+        <IlcPackageVersion>7.0.0-alpha.2.22152.2</IlcPackageVersion>
     </PropertyGroup>
 
     <ItemGroup>

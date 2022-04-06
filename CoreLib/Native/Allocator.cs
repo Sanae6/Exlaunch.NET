@@ -4,10 +4,12 @@ using System.Runtime.InteropServices;
 namespace Native; 
 
 public static class Allocator {
-    [DllImport("*", EntryPoint = "malloc")]
+    [DllImport(EntryPoint = "malloc")]
     private static extern unsafe void* NativeMalloc(nint size);
-    [DllImport("*", EntryPoint = "malloc")]
+    [DllImport(EntryPoint = "malloc")]
     private static extern object NativeMallocObject(nint size);
+    [DllImport(EntryPoint = "free")]
+    public static extern unsafe object Free(void* data);
     public static unsafe T* Allocate<T>() where T : unmanaged
         => Allocate<T>(sizeof(T));
 
