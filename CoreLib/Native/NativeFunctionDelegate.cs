@@ -1,5 +1,5 @@
 ﻿namespace Native; 
 
-public class NativeFunctionDelegate  {
+public class NativeFunctionDelegate {
     
 }

@@ -8,40 +8,27 @@ using Nintendo.Bindings;
 namespace Exlaunch;
 
 public static unsafe class MainClass {
-    // [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void SetPaneStringLengthDel(IntPtr iUseLayout, byte* paneName, char* text, ushort unknown,
-        ushort textLength);
 
     private static delegate* unmanaged[Cdecl]<IntPtr, byte*, char*, ushort, ushort, void> setPaneStringTrampoline =
         null!;
-
-    private static bool initializedSocket;
-    private static delegate* unmanaged[Cdecl]<IntPtr, ulong, ulong, int, int> socketInitTrampoline;
+    private static FileHandle file;
 
     [RuntimeExport("exl_main")]
     [MethodImpl(MethodImplOptions.NoInlining)]
     public static void Main() {
-        InternalCalls.Log("Balls\n");
-        InternalCalls.LogInternal2("Balls2\n");
-        // FileBindings.MountSdCard("sd");
+        FileBindings.MountSdCard("sd");
+        file = new FileHandle("sd:/writtenwithlove.txt");
+        file.Write("hey besties\n");
     }
 
     public static void SetPaneStringLength(IntPtr iUseLayout, byte* paneName, char* text, ushort unknown,
         ushort textLength) {
+        
+        file.Write(new string(text));
+        file.Write("\n");
         const string newText = "Do you see that small vent on the floor?\nHave you heard of \"Among Us?\"";
         fixed (char* newPtr = newText) {
             setPaneStringTrampoline(iUseLayout, paneName, newPtr, unknown, (ushort) newText.Length);
         }
-    }
-
-    public static byte[] StrToUtf8(string str) {
-        byte[] bytes = new byte[str.Length];
-        fixed (char* strPtr = str)
-            for (int i = 0; i < str.Length; i++)
-                bytes[i] = strPtr[i] < 0x80
-                    ? (byte) strPtr[i]
-                    : throw new Exception("grr arf bark bark");
-
-        return bytes;
     }
 }
