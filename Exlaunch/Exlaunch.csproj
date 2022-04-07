@@ -13,19 +13,4 @@
     <ItemGroup>
         <ProjectReference Include="../CoreLib/CoreLib.csproj" />
     </ItemGroup>
-
-    <ItemGroup>
-      <Reference Include="ILCompiler.Compiler">
-        <HintPath>..\ilcdbglibs\ILCompiler.Compiler.dll</HintPath>
-      </Reference>
-      <Reference Include="ILCompiler.DependencyAnalysisFramework">
-        <HintPath>..\ilcdbglibs\ILCompiler.DependencyAnalysisFramework.dll</HintPath>
-      </Reference>
-      <Reference Include="ILCompiler.MetadataTransform">
-        <HintPath>..\ilcdbglibs\ILCompiler.MetadataTransform.dll</HintPath>
-      </Reference>
-      <Reference Include="ILCompiler.TypeSystem">
-        <HintPath>..\ilcdbglibs\ILCompiler.TypeSystem.dll</HintPath>
-      </Reference>
-    </ItemGroup>
 </Project>
