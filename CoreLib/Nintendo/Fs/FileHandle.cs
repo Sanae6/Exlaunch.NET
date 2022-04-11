@@ -1,7 +1,7 @@
 ﻿using System;
 using Native;
 
-namespace Nintendo.Bindings; 
+namespace Nintendo.Fs; 
 
 public struct FileHandle : IDisposable {
     public unsafe void* Handle;

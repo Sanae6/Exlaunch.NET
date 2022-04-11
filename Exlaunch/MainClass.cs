@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Runtime;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using Native;
-using Nintendo.Bindings;
+using Nintendo.Fs;
 
 namespace Exlaunch;
 
@@ -23,7 +21,6 @@ public static unsafe class MainClass {
 
     public static void SetPaneStringLength(IntPtr iUseLayout, byte* paneName, char* text, ushort unknown,
         ushort textLength) {
-        
         file.Write(new string(text));
         file.Write("\n");
         const string newText = "Do you see that small vent on the floor?\nHave you heard of \"Among Us?\"";

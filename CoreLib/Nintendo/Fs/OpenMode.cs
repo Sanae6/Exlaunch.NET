@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Nintendo.Bindings; 
+namespace Nintendo.Fs; 
 
 [Flags]
 public enum OpenMode {

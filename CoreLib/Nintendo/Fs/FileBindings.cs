@@ -1,7 +1,7 @@
 ﻿using System.Runtime.InteropServices;
 using Native;
 
-namespace Nintendo.Bindings;
+namespace Nintendo.Fs;
 
 public unsafe class FileBindings {
     [DllImport(EntryPoint = "_ZN2nn2fs12GetEntryTypeEPNS0_18DirectoryEntryTypeEPKc")]
